@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Points Rules - Fantasy IQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/points_rules.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="/" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+
+                    <h1><span style="color: #DC143C;">Fantasy</span> <span style="color: #FFD700;">IQ</span> <span class="welcome-text" id="welcomeText" style="margin-left: 1rem;"></span></h1>
+                </a>
+            </div>
+            
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="/home">Home</a>
+                <a href="/contests">Contests</a>
+                <a href="/about">About</a>
+            </div>
+            <div class="auth-buttons" id="authButtons" style="display: none;">
+                <a href="/login-page" class="btn-login">Login</a>
+                <a href="/register-page" class="btn-register">Sign Up</a>
+            </div>
+            <div class="user-info" id="userInfo" style="display: none;">
+                    <div class="profile-dropdown">
+                        <a href="#" class="profile-icon" title="Profile">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="/profile" class="dropdown-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                My Profile
+                            </a>
+                            <a href="/wallet" class="dropdown-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                </svg>
+                                My Wallet
+                                <span class="wallet-badge" id="walletBadge">₹0</span>
+                            </a>
+                            <a href="/joined-contests" class="dropdown-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                </svg>
+                                Joined Contests
+                            </a>
+                            <a href="/logout" class="dropdown-item logout-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16 17 21 12 16 7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Points Rules Section -->
+    <section class="points-rules-section">
+        <div class="points-container">
+            <div class="page-header">
+                <h1>Fantasy Sports Points System</h1>
+                <p>Understand how points are calculated based on player performance</p>
+            </div>
+
+            <!-- Sport Tabs -->
+            <div class="sport-tabs">
+                <button class="sport-tab active" onclick="showSport('cricket')">
+                    <i class="fas fa-baseball-bat-ball"></i> Cricket
+                </button>
+                <button class="sport-tab" onclick="showSport('football')">
+                    <i class="fas fa-futbol"></i> Football
+                </button>
+                <button class="sport-tab" onclick="showSport('basketball')">
+                    <i class="fas fa-basketball-ball"></i> Basketball
+                </button>
+            </div>
+
+            <!-- Cricket Rules -->
+            <div id="cricket-rules" class="sport-content active">
+                <h2 class="sport-title"><i class="fas fa-baseball-bat-ball"></i> Cricket Fantasy Points</h2>
+
+            <!-- Batting Points -->
+            <div class="points-card">
+                <h2><i class="fas fa-baseball-bat-ball"></i> Batting Points</h2>
+                <div class="points-table">
+                    <div class="points-row points-header">
+                        <div>Action</div>
+                        <div>Points</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Run scored</div>
+                        <div>+1</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Boundary bonus (4 runs)</div>
+                        <div>+1</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Six bonus (6 runs)</div>
+                        <div>+2</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Half-century (50 runs)</div>
+                        <div>+8</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Century (100 runs)</div>
+                        <div>+16</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Dismissed for a duck (0 runs)</div>
+                        <div>-2</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bowling Points -->
+            <div class="points-card">
+                <h2><i class="fas fa-running"></i> Bowling Points</h2>
+                <div class="points-table">
+                    <div class="points-row points-header">
+                        <div>Action</div>
+                        <div>Points</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Wicket (excluding run out)</div>
+                        <div>+25</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Bonus (LBW / Bowled)</div>
+                        <div>+8</div>
+                    </div>
+                    <div class="points-row">
+                        <div>3 wicket bonus</div>
+                        <div>+4</div>
+                    </div>
+                    <div class="points-row">
+                        <div>4 wicket bonus</div>
+                        <div>+8</div>
+                    </div>
+                    <div class="points-row">
+                        <div>5 wicket bonus</div>
+                        <div>+16</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Maiden over</div>
+                        <div>+12</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fielding Points -->
+            <div class="points-card">
+                <h2><i class="fas fa-hand-rock"></i> Fielding Points</h2>
+                <div class="points-table">
+                    <div class="points-row points-header">
+                        <div>Action</div>
+                        <div>Points</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Catch</div>
+                        <div>+8</div>
+                    </div>
+                    <div class="points-row">
+                        <div>3 catches bonus</div>
+                        <div>+4</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Stumping / Run out (direct)</div>
+                        <div>+12</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Run out (indirect/thrower)</div>
+                        <div>+6</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strike Rate Points (T20) -->
+            <div class="points-card">
+                <h2><i class="fas fa-tachometer-alt"></i> Strike Rate Points (T20)</h2>
+                <div class="points-table">
+                    <div class="points-row points-header">
+                        <div>Strike Rate (Minimum 10 balls)</div>
+                        <div>Points</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Between 60-70 runs per 100 balls</div>
+                        <div>-2</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Between 50-60 runs per 100 balls</div>
+                        <div>-4</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Below 50 runs per 100 balls</div>
+                        <div>-6</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Between 130-150 runs per 100 balls</div>
+                        <div>+2</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Between 150-170 runs per 100 balls</div>
+                        <div>+4</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Above 170 runs per 100 balls</div>
+                        <div>+6</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Economy Rate Points (T20) -->
+            <div class="points-card">
+                <h2><i class="fas fa-chart-line"></i> Economy Rate Points (T20)</h2>
+                <div class="points-table">
+                    <div class="points-row points-header">
+                        <div>Economy Rate (Minimum 2 overs)</div>
+                        <div>Points</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Below 5 runs per over</div>
+                        <div>+6</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Between 5-6 runs per over</div>
+                        <div>+4</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Between 6-7 runs per over</div>
+                        <div>+2</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Between 10-11 runs per over</div>
+                        <div>-2</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Between 11-12 runs per over</div>
+                        <div>-4</div>
+                    </div>
+                    <div class="points-row">
+                        <div>Above 12 runs per over</div>
+                        <div>-6</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Captain & Vice-Captain -->
+            <div class="points-card highlight-card">
+                <h2><i class="fas fa-crown"></i> Captain & Vice-Captain</h2>
+                <div class="captain-info">
+                    <div class="captain-item">
+                        <div class="captain-icon">👑</div>
+                        <div class="captain-details">
+                            <h3>Captain</h3>
+                            <p>Points scored by your captain are multiplied by <strong>2x</strong></p>
+                        </div>
+                    </div>
+                    <div class="captain-item">
+                        <div class="captain-icon">⭐</div>
+                        <div class="captain-details">
+                            <h3>Vice-Captain</h3>
+                            <p>Points scored by your vice-captain are multiplied by <strong>1.5x</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Notes -->
+            <div class="points-card notes-card">
+                <h2><i class="fas fa-info-circle"></i> Important Notes</h2>
+                <ul class="notes-list">
+                    <li>Points are updated in real-time during the match</li>
+                    <li>Minimum batting/bowling requirements must be met for strike rate and economy rate points</li>
+                    <li>Substitute players do not score any points</li>
+                    <li>Player announcements are subject to change by teams</li>
+                    <li>In case of any discrepancy, the decision of Fantasy IQ will be final</li>
+                    <li>Points are calculated based on official match data</li>
+                </div>
+            </div>
+
+            <!-- Football Rules -->
+            <div id="football-rules" class="sport-content">
+                <h2 class="sport-title"><i class="fas fa-futbol"></i> Football Fantasy Points</h2>
+
+                <!-- Goals & Assists -->
+                <div class="points-card">
+                    <h2><i class="fas fa-futbol"></i> Goals & Assists</h2>
+                    <div class="points-table">
+                        <div class="points-row points-header">
+                            <div>Action</div>
+                            <div>Points</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Goal scored by Forward</div>
+                            <div>+10</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Goal scored by Midfielder</div>
+                            <div>+12</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Goal scored by Defender</div>
+                            <div>+15</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Goal scored by Goalkeeper</div>
+                            <div>+20</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Assist</div>
+                            <div>+8</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Hat-trick (3 goals)</div>
+                            <div>+15</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Defensive Actions -->
+                <div class="points-card">
+                    <h2><i class="fas fa-shield-alt"></i> Defensive Actions</h2>
+                    <div class="points-table">
+                        <div class="points-row points-header">
+                            <div>Action</div>
+                            <div>Points</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Clean sheet (Goalkeeper/Defender)</div>
+                            <div>+10</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Clean sheet (Midfielder)</div>
+                            <div>+5</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Tackle won</div>
+                            <div>+1</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Interception</div>
+                            <div>+1</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Clearance</div>
+                            <div>+1</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Block</div>
+                            <div>+1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goalkeeping -->
+                <div class="points-card">
+                    <h2><i class="fas fa-hands"></i> Goalkeeping</h2>
+                    <div class="points-table">
+                        <div class="points-row points-header">
+                            <div>Action</div>
+                            <div>Points</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Save (3 saves = +1 point)</div>
+                            <div>+1</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Penalty saved</div>
+                            <div>+12</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Goal conceded (per 2 goals)</div>
+                            <div>-2</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Negative Points -->
+                <div class="points-card">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Negative Points</h2>
+                    <div class="points-table">
+                        <div class="points-row points-header">
+                            <div>Action</div>
+                            <div>Points</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Yellow card</div>
+                            <div>-2</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Red card</div>
+                            <div>-6</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Own goal</div>
+                            <div>-4</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Penalty missed</div>
+                            <div>-4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Playing Time -->
+                <div class="points-card">
+                    <h2><i class="fas fa-clock"></i> Playing Time</h2>
+                    <div class="points-table">
+                        <div class="points-row points-header">
+                            <div>Minutes Played</div>
+                            <div>Points</div>
+                        </div>
+                        <div class="points-row">
+                            <div>0-59 minutes</div>
+                            <div>+2</div>
+                        </div>
+                        <div class="points-row">
+                            <div>60+ minutes</div>
+                            <div>+4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Captain & Vice-Captain -->
+                <div class="points-card highlight-card">
+                    <h2><i class="fas fa-crown"></i> Captain & Vice-Captain</h2>
+                    <div class="captain-info">
+                        <div class="captain-item">
+                            <div class="captain-icon">👑</div>
+                            <div class="captain-details">
+                                <h3>Captain</h3>
+                                <p>Points scored by your captain are multiplied by <strong>2x</strong></p>
+                            </div>
+                        </div>
+                        <div class="captain-item">
+                            <div class="captain-icon">⭐</div>
+                            <div class="captain-details">
+                                <h3>Vice-Captain</h3>
+                                <p>Points scored by your vice-captain are multiplied by <strong>1.5x</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Basketball Rules -->
+            <div id="basketball-rules" class="sport-content">
+                <h2 class="sport-title"><i class="fas fa-basketball-ball"></i> Basketball Fantasy Points</h2>
+
+                <!-- Scoring -->
+                <div class="points-card">
+                    <h2><i class="fas fa-basketball-ball"></i> Scoring</h2>
+                    <div class="points-table">
+                        <div class="points-row points-header">
+                            <div>Action</div>
+                            <div>Points</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Point scored</div>
+                            <div>+1</div>
+                        </div>
+                        <div class="points-row">
+                            <div>2-pointer made</div>
+                            <div>+2</div>
+                        </div>
+                        <div class="points-row">
+                            <div>3-pointer made</div>
+                            <div>+3</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Free throw made</div>
+                            <div>+1</div>
+                        </div>
+                        <div class="points-row">
+                            <div>10+ points in a game</div>
+                            <div>+5</div>
+                        </div>
+                        <div class="points-row">
+                            <div>20+ points in a game</div>
+                            <div>+10</div>
+                        </div>
+                        <div class="points-row">
+                            <div>30+ points in a game</div>
+                            <div>+15</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rebounds & Assists -->
+                <div class="points-card">
+                    <h2><i class="fas fa-hands"></i> Rebounds & Assists</h2>
+                    <div class="points-table">
+                        <div class="points-row points-header">
+                            <div>Action</div>
+                            <div>Points</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Rebound (offensive/defensive)</div>
+                            <div>+1.5</div>
+                        </div>
+                        <div class="points-row">
+                            <div>10+ rebounds in a game</div>
+                            <div>+5</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Assist</div>
+                            <div>+2</div>
+                        </div>
+                        <div class="points-row">
+                            <div>10+ assists in a game</div>
+                            <div>+5</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Defensive Actions -->
+                <div class="points-card">
+                    <h2><i class="fas fa-shield-alt"></i> Defensive Actions</h2>
+                    <div class="points-table">
+                        <div class="points-row points-header">
+                            <div>Action</div>
+                            <div>Points</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Steal</div>
+                            <div>+3</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Block</div>
+                            <div>+3</div>
+                        </div>
+                        <div class="points-row">
+                            <div>5+ steals in a game</div>
+                            <div>+5</div>
+                        </div>
+                        <div class="points-row">
+                            <div>5+ blocks in a game</div>
+                            <div>+5</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Negative Points -->
+                <div class="points-card">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Negative Points</h2>
+                    <div class="points-table">
+                        <div class="points-row points-header">
+                            <div>Action</div>
+                            <div>Points</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Turnover</div>
+                            <div>-1</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Personal foul</div>
+                            <div>-0.5</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Technical foul</div>
+                            <div>-2</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Flagrant foul</div>
+                            <div>-4</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Disqualification</div>
+                            <div>-6</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Special Achievements -->
+                <div class="points-card">
+                    <h2><i class="fas fa-trophy"></i> Special Achievements</h2>
+                    <div class="points-table">
+                        <div class="points-row points-header">
+                            <div>Achievement</div>
+                            <div>Points</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Double-double (10+ in 2 categories)</div>
+                            <div>+10</div>
+                        </div>
+                        <div class="points-row">
+                            <div>Triple-double (10+ in 3 categories)</div>
+                            <div>+20</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Captain & Vice-Captain -->
+                <div class="points-card highlight-card">
+                    <h2><i class="fas fa-crown"></i> Captain & Vice-Captain</h2>
+                    <div class="captain-info">
+                        <div class="captain-item">
+                            <div class="captain-icon">👑</div>
+                            <div class="captain-details">
+                                <h3>Captain</h3>
+                                <p>Points scored by your captain are multiplied by <strong>2x</strong></p>
+                            </div>
+                        </div>
+                        <div class="captain-item">
+                            <div class="captain-icon">⭐</div>
+                            <div class="captain-details">
+                                <h3>Vice-Captain</h3>
+                                <p>Points scored by your vice-captain are multiplied by <strong>1.5x</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Notes -->
+            <div class="points-card notes-card">
+                <h2><i class="fas fa-info-circle"></i> Important Notes</h2>
+                <ul class="notes-list">
+                    <li>Points are updated in real-time during the match/game</li>
+                    <li>Minimum requirements must be met for certain bonuses</li>
+                    <li>Substitute players do not score any points unless they enter the game</li>
+                    <li>Player announcements are subject to change by teams</li>
+                    <li>In case of any discrepancy, the decision of Fantasy IQ will be final</li>
+                    <li>Points are calculated based on official match/game data</li>
+                    <li>Captain and Vice-Captain multipliers apply to all points earned</li>
+                </ul>
+            </div>
+
+            <!-- Back Button -->
+            <div class="action-buttons">
+                <button class="btn-back" onclick="window.history.back()">
+                    <i class="fas fa-arrow-left"></i> Back to Contest
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Fantasy IQ</h3>
+                    <p>India's premier fantasy sports platform. Play fantasy cricket, football, and basketball.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/contests">Contests</a></li>
+                        <li><a href="/points-rules">Points Rules</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Responsible Gaming</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li>Email: support@fantasyiq.com</li>
+                        <li>Phone: +91 1234567890</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Fantasy IQ. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Check user session
+        async function checkSession() {
+            try {
+                const response = await fetch('/check-session');
+                const data = await response.json();
+                
+                const authButtons = document.getElementById('authButtons');
+                const userInfo = document.getElementById('userInfo');
+                const welcomeText = document.getElementById('welcomeText');
+                const walletBadge = document.getElementById('walletBadge');
+                
+                if (data.logged_in) {
+                    authButtons.style.display = 'none';
+                    userInfo.style.display = 'flex';
+                    if (welcomeText) {
+                        welcomeText.textContent = `Welcome, ${data.username}!`;
+                    }
+                    if (walletBadge) {
+                        walletBadge.textContent = `₹${data.wallet || 0}`;
+                    }
+                } else {
+                    authButtons.style.display = 'flex';
+                    userInfo.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Session check error:', error);
+            }
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const hamburger = document.getElementById('hamburger');
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Sport tab switching
+        function showSport(sport) {
+            // Hide all sport contents
+            document.querySelectorAll('.sport-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.sport-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected sport content
+            document.getElementById(sport + '-rules').classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.closest('.sport-tab').classList.add('active');
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            checkSession();
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

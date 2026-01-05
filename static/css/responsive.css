@@ -1,0 +1,65 @@
+/* 
+   Fantasy IQ - Global Responsive Utilities
+   Redesign Version: 2.0
+*/
+
+/* Global Responsive Adjustments */
+@media (max-width: 1200px) {
+
+    .container,
+    .section-container,
+    .nav-container {
+        max-width: 95%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --spacing-lg: 2rem;
+        --spacing-xl: 3rem;
+    }
+
+    body {
+        font-size: 15px;
+    }
+
+    h1 {
+        font-size: 2.25rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.85rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Utility classes for visibility */
+.hide-mobile {
+    @media (max-width: 768px) {
+        display: none !important;
+    }
+}
+
+.show-mobile {
+    display: none !important;
+
+    @media (max-width: 768px) {
+        display: block !important;
+    }
+}

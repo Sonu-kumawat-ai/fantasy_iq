@@ -1,0 +1,269 @@
+/* 
+   Fantasy IQ - Team Creation Styles
+   Redesign Version: 2.0
+*/
+
+.team-creation-section {
+    padding: 3rem 1.5rem;
+    background: var(--bg-light);
+    min-height: 100vh;
+}
+
+.team-header {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border);
+}
+
+.team-header h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+}
+
+.team-info {
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+
+.team-info strong {
+    color: var(--primary-red);
+    font-size: 1.5rem;
+}
+
+/* Builder Layout */
+.team-builder-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+/* Players Selection */
+.players-section {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    background: var(--bg-light);
+    padding: 0.5rem;
+    border-radius: var(--radius-full);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    color: #64748B;
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+}
+
+.tab-btn.active {
+    background: white;
+    color: var(--primary-red);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Players Grid */
+.players-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.player-card {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 100px;
+    align-items: center;
+    padding: 1.25rem;
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.player-card:hover {
+    background: white;
+    box-shadow: var(--shadow-sm);
+    border-color: var(--primary-yellow);
+}
+
+.player-card.selected {
+    background: #FFF9F0;
+    border-color: var(--primary-yellow);
+}
+
+.player-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.player-name {
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.player-team {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748B;
+}
+
+.player-role {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #64748B;
+    text-transform: uppercase;
+}
+
+.btn-add-player {
+    background: var(--primary-red);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.8125rem;
+}
+
+.btn-add-player:disabled {
+    background: #E2E8F0;
+    color: #94A3B8;
+}
+
+/* Team Preview */
+.team-preview {
+    background: var(--text-dark);
+    color: white;
+    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    position: sticky;
+    top: 100px;
+}
+
+.team-preview h3 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.selected-players {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.selected-player-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.selected-player-card.captain {
+    border-color: var(--primary-yellow);
+    background: rgba(255, 209, 102, 0.1);
+}
+
+.selected-player-card.vice-captain {
+    border-color: #60A5FA;
+    background: rgba(96, 165, 250, 0.1);
+}
+
+.captain-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-captain,
+.btn-vice-captain {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+.selected-player-card.captain .btn-captain {
+    background: var(--primary-yellow);
+    color: black;
+    opacity: 1;
+}
+
+.selected-player-card.vice-captain .btn-vice-captain {
+    background: #60A5FA;
+    color: white;
+    opacity: 1;
+}
+
+.remove-btn {
+    color: #EF4444;
+    font-weight: 900;
+    cursor: pointer;
+    margin-left: 1rem;
+}
+
+.btn-submit-team {
+    width: 100%;
+    background: var(--primary-yellow);
+    color: var(--text-dark);
+    padding: 1.25rem;
+    border-radius: var(--radius-full);
+    font-weight: 800;
+    font-size: 1.125rem;
+    margin-top: 1rem;
+}
+
+.btn-submit-team:disabled {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .team-builder-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .team-preview {
+        position: relative;
+        top: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .player-card {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .team-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}

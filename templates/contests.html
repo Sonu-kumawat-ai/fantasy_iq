@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contests - Fantasy IQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="/" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+
+                    <h1><span style="color: #DC143C;">Fantasy</span> <span style="color: #FFD700;">IQ</span> <span class="welcome-text" id="welcomeText" style="margin-left: 1rem;"></span></h1>
+                </a>
+            </div>
+            
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="/home">Home</a>
+                <a href="/contests">Contests</a>
+                <a href="/about">About</a>
+            </div>
+            <div class="auth-buttons" id="authButtons" style="display: none;">
+                <a href="/login-page" class="btn-login">Login</a>
+                <a href="/register-page" class="btn-register">Sign Up</a>
+            </div>
+            <div class="user-info" id="userInfo" style="display: none;">
+                    <div class="profile-dropdown">
+                        <a href="#" class="profile-icon" title="Profile">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="/profile" class="dropdown-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                My Profile
+                            </a>
+                            <a href="/wallet" class="dropdown-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                </svg>
+                                My Wallet
+                                <span class="wallet-badge" id="walletBadge">₹0</span>
+                            </a>
+                            <a href="/joined-contests" class="dropdown-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 11l3 3L22 4"></path>
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                </svg>
+                                Joined Contests
+                            </a>
+                            <a href="/logout" class="dropdown-item logout-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16 17 21 12 16 7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">Browse All Contests</h1>
+            <p class="hero-subtitle">Choose your sport and join exciting contests</p>
+        </div>
+    </section>
+
+    <!-- Sport Tabs -->
+    <section class="contests-section">
+        <div class="container">
+            <div class="sport-tabs">
+                <button class="sport-tab active" data-sport="all" onclick="switchSport('all')">
+                    🌐 All
+                </button>
+                <button class="sport-tab" data-sport="cricket" onclick="switchSport('cricket')">
+                    🏏 Cricket
+                </button>
+                <button class="sport-tab" data-sport="football" onclick="switchSport('football')">
+                    ⚽ Football
+                </button>
+                <button class="sport-tab" data-sport="basketball" onclick="switchSport('basketball')">
+                    🏀 Basketball
+                </button>
+            </div>
+            <h2 class="section-title" style="margin-top: 30px;">Live Contests - <span id="selectedSportTitle">All Sports</span></h2>
+
+            <!-- Loading State -->
+            <div id="loadingState" style="text-align: center; padding: 40px; display: none;">
+                <div class="spinner"></div>
+                <p>Loading contests...</p>
+            </div>
+
+            <!-- Contests Grid -->
+            <div id="contestsGrid" class="contests-grid">
+                <!-- Contests will be loaded here dynamically -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" style="text-align: center; padding: 40px; display: none;">
+                <h3 style="font-size: 2rem; color: var(--primary-red); margin-bottom: 15px;">No contests available</h3>
+                <p style="font-size: 1.33rem; color: var(--primary-red);">Check back later for new contests!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Fantasy IQ</h3>
+                <p>India's Most Trusted Fantasy Sports Platform</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="/">Home</a>
+                <a href="/contests">Contests</a>
+                <a href="/about">About</a>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <a href="#">Help Center</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Fantasy IQ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        let currentSport = 'all';
+
+        // Check session on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            checkSession();
+            loadContests('all');
+        });
+
+        function switchSport(sport) {
+            currentSport = sport;
+            
+            // Update active tab
+            document.querySelectorAll('.sport-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-sport="${sport}"]`).classList.add('active');
+            
+            // Update section title
+            const sportTitle = document.getElementById('selectedSportTitle');
+            if (sportTitle) {
+                if (sport === 'all') {
+                    sportTitle.textContent = 'All Sports';
+                } else {
+                    sportTitle.textContent = sport.charAt(0).toUpperCase() + sport.slice(1);
+                }
+            }
+            
+            // Load contests for selected sport
+            loadContests(sport);
+        }
+
+        async function loadContests(sport) {
+            const contestsGrid = document.getElementById('contestsGrid');
+            const loadingState = document.getElementById('loadingState');
+            const emptyState = document.getElementById('emptyState');
+            
+            // Show loading
+            loadingState.style.display = 'block';
+            contestsGrid.style.display = 'none';
+            emptyState.style.display = 'none';
+            
+            try {
+                const response = await fetch(`/get-contests?sport=${sport}`);
+                const data = await response.json();
+                
+                loadingState.style.display = 'none';
+                
+                if (data.success && data.contests && data.contests.length > 0) {
+                    contestsGrid.style.display = 'grid';
+                    displayContests(data.contests);
+                } else {
+                    emptyState.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error loading contests:', error);
+                loadingState.style.display = 'none';
+                emptyState.style.display = 'block';
+            }
+        }
+
+        function displayContests(contests) {
+            const contestsGrid = document.getElementById('contestsGrid');
+            contestsGrid.innerHTML = '';
+            
+            contests.forEach(contest => {
+                const contestCard = createContestCard(contest);
+                contestsGrid.appendChild(contestCard);
+            });
+        }
+
+        function createContestCard(contest) {
+            const card = document.createElement('div');
+            card.className = 'contest-card';
+            
+            // Format match date/time
+            let matchDateDisplay = '';
+            let matchTimeDisplay = '';
+            let remainingTime = '';
+            
+            if (contest.match_start_time) {
+                const date = new Date(contest.match_start_time);
+                matchDateDisplay = date.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                matchTimeDisplay = date.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit'
+                });
+                
+                // Calculate remaining time
+                const now = new Date();
+                const diff = date - now;
+                
+                if (diff > 0) {
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    
+                    if (days > 0) {
+                        remainingTime = `${days}d ${hours}h remaining`;
+                    } else if (hours > 0) {
+                        remainingTime = `${hours}h ${minutes}m remaining`;
+                    } else {
+                        remainingTime = `${minutes}m remaining`;
+                    }
+                } else {
+                    remainingTime = 'Match started';
+                }
+            }
+            
+            card.innerHTML = `
+                <div class="contest-header">
+                    <h3>${contest.title || contest.match_name}</h3>
+                </div>
+                ${matchDateDisplay ? `
+                <div class="match-timing">
+                    <span class="match-date">${matchDateDisplay}</span>
+                    <span class="match-time">${matchTimeDisplay}</span>
+                </div>
+                ` : ''}
+                ${remainingTime ? `<div class="match-remaining-time"><span class="time-icon">⏱</span> ${remainingTime}</div>` : ''}
+                <div class="contest-body">
+                    <div class="contest-info">
+                        <div class="info-item">
+                            <span class="label">Winning Prize</span>
+                            <span class="value">₹${formatCurrency(contest.prize_pool)}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Entry Fee</span>
+                            <span class="value">${contest.entry_fee === 0 ? 'Free' : '₹' + contest.entry_fee}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="contest-footer">
+                    <button class="btn-join" data-contest-id="${contest.match_id}">Join Contest</button>
+                </div>
+            `;
+            
+            // Add click event listener to the button
+            const joinButton = card.querySelector('.btn-join');
+            joinButton.addEventListener('click', function() {
+                viewContestDetails(contest.match_id);
+            });
+            
+            return card;
+        }
+
+        function formatCurrency(amount) {
+            if (amount >= 10000000) {
+                return (amount / 10000000).toFixed(1) + ' Cr';
+            } else if (amount >= 100000) {
+                return (amount / 100000).toFixed(1) + ' L';
+            } else if (amount >= 1000) {
+                return (amount / 1000).toFixed(1) + ' K';
+            }
+            return amount.toString();
+        }
+
+        function viewContestDetails(matchId) {
+            window.location.href = `/contest-details?id=${matchId}`;
+        }
+    </script>
+
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .contests-section {
+            padding: 40px 20px;
+            min-height: 60vh;
+        }
+
+        .sport-tabs {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-bottom: 0px;
+        }
+
+        .sport-tab {
+            padding: 20px 50px;
+            border: 3px solid #ddd;
+            background: white;
+            border-radius: 35px;
+            cursor: pointer;
+            font-size: 1.4rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .sport-tab:hover {
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+        }
+
+        .sport-tab.active {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        .contests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-red);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .contests-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sport-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html>

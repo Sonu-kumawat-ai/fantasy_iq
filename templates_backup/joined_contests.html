@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joined Contests - Fantasy IQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/joined_contests.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="/" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Fantasy IQ Logo" class="logo-img" onerror="this.style.display='none'">
+                    <h1>Fantasy <span>IQ</span> <span class="welcome-text" id="welcomeText"></span></h1>
+                </a>
+            </div>
+            
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="/home">Home</a>
+                <a href="/contests">Contests</a>
+                <a href="/about">About</a>
+                <div class="auth-buttons" id="authButtons" style="display: none;">
+                    <a href="/login-page" class="btn-login">Login</a>
+                </div>
+                <div class="user-info" id="userInfo" style="display: none;">
+                    <div class="profile-dropdown">
+                        <a href="#" class="profile-icon" title="Profile">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="/profile" class="dropdown-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                My Profile
+                            </a>
+                            <a href="/wallet" class="dropdown-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                </svg>
+                                My Wallet
+                                <span class="wallet-badge" id="walletBadge">₹0</span>
+                            </a>
+                            <a href="/joined-contests" class="dropdown-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 11l3 3L22 4"></path>
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                </svg>
+                                Joined Contests
+                            </a>
+                            <a href="/logout" class="dropdown-item logout-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16 17 21 12 16 7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Joined Contests Section -->
+    <section class="joined-contests-section">
+        <div class="section-container">
+            <div class="page-header">
+                <h1>My Joined Contests</h1>
+                <p>Track all your contest entries and participation</p>
+            </div>
+
+            <!-- Contests List -->
+            <div id="contestsContainer" class="joined-contests-grid">
+                {% if contests and contests|length > 0 %}
+                    {% for contest in contests %}
+                    <div class="joined-contest-card">
+                        <div class="contest-card-header">
+                            <h3>{{ contest.contest_title or contest.title or 'Contest' }}</h3>
+                            <div class="contest-meta">
+                                <span>Joined: {{ contest.joined_at.split(' ')[0] if contest.joined_at else 'N/A' }}</span>
+                            </div>
+                        </div>
+                        <div class="contest-card-body">
+                            <div class="contest-info-row">
+                                <span class="info-label">Prize Pool</span>
+                                <span class="info-value">₹{{ "{:,}".format(contest.prize_pool) }}</span>
+                            </div>
+                            <div class="contest-info-row">
+                                <span class="info-label">Entry Fee Paid</span>
+                                <span class="info-value">₹{{ contest.entry_fee }}</span>
+                            </div>
+                            <div class="contest-info-row">
+                                <span class="info-label">Contest Status</span>
+                                <span class="info-value">{{ contest.status or 'Active' }}</span>
+                            </div>
+                        </div>
+                        <div class="contest-card-footer">
+                            {% if contest.match_started %}
+                                <a href="/check-rank?contest_id={{ contest.contest_id }}" class="btn-check-rank">Check Rank</a>
+                            {% elif contest.has_team %}
+                                <a href="/create-team?contest_id={{ contest.contest_id }}" class="btn-edit-team">Edit Team</a>
+                            {% else %}
+                                <a href="/create-team?contest_id={{ contest.contest_id }}" class="btn-create-team">Create Team</a>
+                            {% endif %}
+                            <a href="/contest-details?id={{ contest.contest_id }}" class="btn-view-details">View Details</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <div class="no-contests">
+                    <p>📭</p>
+                    <p>You haven't joined any contests yet!</p>
+                    <p><a href="/" style="color: var(--primary-red); text-decoration: none; font-weight: 600;">Browse Contests</a></p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Fantasy IQ</h3>
+                <p>India's Most Trusted Fantasy Sports Platform</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#">About Us</a>
+                <a href="#">How to Play</a>
+                <a href="#">Terms & Conditions</a>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <a href="#">Help Center</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Fantasy IQ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/joined_contests.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Fantasy IQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="/" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+                    <h1><span style="color: #DC143C;">Fantasy</span> <span style="color: #FFD700;">IQ</span></h1>
+                </a>
+            </div>
+            
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="/home">Home</a>
+                <a href="/contests">Contests</a>
+                <a href="/#about">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <div class="auth-box">
+                <!-- Login Form -->
+                <div class="form-container" id="loginForm">
+                    <h2>Login to Fantasy IQ</h2>
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                                <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">
+                                    <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <svg class="eye-off-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="loginMessage" class="message"></div>
+                        <button type="submit" class="btn-submit">Login</button>
+                    </form>
+                    
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+                    
+                    <button onclick="loginWithGoogle()" class="btn-google">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.64 9.20443C17.64 8.56625 17.5827 7.95262 17.4764 7.36353H9V10.8449H13.8436C13.635 11.9699 13.0009 12.9231 12.0477 13.5613V15.8194H14.9564C16.6582 14.2526 17.64 11.9453 17.64 9.20443Z" fill="#4285F4"/>
+                            <path d="M9 18C11.43 18 13.4673 17.1941 14.9564 15.8195L12.0477 13.5613C11.2418 14.1013 10.2109 14.4204 9 14.4204C6.65591 14.4204 4.67182 12.8372 3.96409 10.71H0.957275V13.0418C2.43818 15.9831 5.48182 18 9 18Z" fill="#34A853"/>
+                            <path d="M3.96409 10.71C3.78409 10.17 3.68182 9.59318 3.68182 9C3.68182 8.40682 3.78409 7.82999 3.96409 7.28999V4.95818H0.957275C0.347727 6.17318 0 7.54772 0 9C0 10.4523 0.347727 11.8268 0.957275 13.0418L3.96409 10.71Z" fill="#FBBC05"/>
+                            <path d="M9 3.57955C10.3214 3.57955 11.5077 4.03364 12.4405 4.92545L15.0218 2.34409C13.4632 0.891818 11.4259 0 9 0C5.48182 0 2.43818 2.01682 0.957275 4.95818L3.96409 7.29C4.67182 5.16273 6.65591 3.57955 9 3.57955Z" fill="#EA4335"/>
+                        </svg>
+                        Continue with Google
+                    </button>
+                    
+                    <p class="toggle-form">
+                        New user? <a href="/register-page">Register here</a>
+                    </p>
+                </div>
+
+                <!-- OTP Verification Form (Hidden by default) -->
+                <div class="form-container" id="otpForm" style="display: none;">
+                    <h2>Verify Your Email</h2>
+                    <p style="color: #666; margin-bottom: 20px; text-align: center;">
+                        Please verify your email to login. We've sent a 6-digit OTP to <strong id="userEmail"></strong>
+                    </p>
+                    <form onsubmit="handleVerifyOTP(event)">
+                        <div class="form-group">
+                            <label for="otpInput">Enter OTP</label>
+                            <input type="text" id="otpInput" placeholder="Enter 6-digit OTP" required maxlength="6" pattern="[0-9]{6}" style="text-align: center; font-size: 24px; letter-spacing: 5px;">
+                        </div>
+                        <div id="otpMessage" class="message"></div>
+                        <button type="submit" class="btn-submit">Verify OTP</button>
+                        <button type="button" class="btn-secondary" onclick="handleResendOTP()" style="margin-top: 10px;">Resend OTP</button>
+                    </form>
+                    <p class="toggle-form">
+                        <a href="#" onclick="showLoginForm()">Back to Login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        let userEmailForOTP = '';
+
+        // Toggle password visibility
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.parentElement.querySelector('.password-toggle');
+            const eyeIcon = button.querySelector('.eye-icon');
+            const eyeOffIcon = button.querySelector('.eye-off-icon');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                eyeIcon.style.display = 'none';
+                eyeOffIcon.style.display = 'block';
+            } else {
+                input.type = 'password';
+                eyeIcon.style.display = 'block';
+                eyeOffIcon.style.display = 'none';
+            }
+        }
+
+        // Google Login
+        function loginWithGoogle() {
+            window.location.href = '/auth/google';
+        }
+
+        // Update the handleLogin function
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const messageDiv = document.getElementById('loginMessage');
+            
+            // Clear previous messages
+            messageDiv.textContent = '';
+            messageDiv.className = 'message';
+            
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    messageDiv.textContent = data.message;
+                    messageDiv.classList.add('success');
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                } else if (data.needsVerification) {
+                    // Show OTP form if email not verified
+                    userEmailForOTP = data.email;
+                    document.getElementById('userEmail').textContent = data.email;
+                    
+                    messageDiv.textContent = data.message;
+                    messageDiv.classList.add('error');
+                    
+                    setTimeout(() => {
+                        document.getElementById('loginForm').style.display = 'none';
+                        document.getElementById('otpForm').style.display = 'block';
+                    }, 2000);
+                } else {
+                    messageDiv.textContent = data.message;
+                    messageDiv.classList.add('error');
+                }
+            } catch (error) {
+                messageDiv.textContent = 'Login failed. Please try again.';
+                messageDiv.classList.add('error');
+            }
+        }
+
+        // Handle OTP verification
+        async function handleVerifyOTP(event) {
+            event.preventDefault();
+            
+            const otp = document.getElementById('otpInput').value;
+            const messageDiv = document.getElementById('otpMessage');
+            
+            // Clear previous messages
+            messageDiv.textContent = '';
+            messageDiv.className = 'message';
+            
+            if (otp.length !== 6) {
+                messageDiv.textContent = 'Please enter a valid 6-digit OTP';
+                messageDiv.classList.add('error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/verify-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email: userEmailForOTP, otp })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    messageDiv.textContent = data.message;
+                    messageDiv.classList.add('success');
+                    
+                    // Show login form again
+                    setTimeout(() => {
+                        showLoginForm();
+                    }, 2000);
+                } else {
+                    messageDiv.textContent = data.message;
+                    messageDiv.classList.add('error');
+                }
+            } catch (error) {
+                messageDiv.textContent = 'Verification failed. Please try again.';
+                messageDiv.classList.add('error');
+            }
+        }
+
+        // Handle resend OTP
+        async function handleResendOTP() {
+            const messageDiv = document.getElementById('otpMessage');
+            
+            // Clear previous messages
+            messageDiv.textContent = '';
+            messageDiv.className = 'message';
+            
+            try {
+                const response = await fetch('/resend-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email: userEmailForOTP })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    messageDiv.textContent = data.message;
+                    messageDiv.classList.add('success');
+                    
+                    // Clear OTP input
+                    document.getElementById('otpInput').value = '';
+                } else {
+                    messageDiv.textContent = data.message;
+                    messageDiv.classList.add('error');
+                }
+            } catch (error) {
+                messageDiv.textContent = 'Failed to resend OTP. Please try again.';
+                messageDiv.classList.add('error');
+            }
+        }
+
+        // Show login form
+        function showLoginForm() {
+            document.getElementById('otpForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('loginMessage').textContent = '';
+            document.getElementById('loginMessage').className = 'message';
+        }
+    </script>
+</body>
+</html>
