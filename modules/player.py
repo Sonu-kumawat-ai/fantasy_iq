@@ -282,7 +282,7 @@ def fetch_players_from_gemini_single_request(team1_name, team2_name, sport_type=
         if not Config.GEMINI_API_KEY or Config.GEMINI_API_KEY == 'your_gemini_api_key_here':
             return None
         
-        model = genai.GenerativeModel('gemini-2.5-pro')
+        model = genai.GenerativeModel('gemini-2.5-flash-lite')
         
         # Format match date for the prompt
         date_info = f" on {match_date}" if match_date else ""
