@@ -23,8 +23,8 @@ class Config:
     RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID')
     RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET')
     
-    # SportMonks API Configuration
-    SPORTMONKS_API_KEY = os.getenv('SPORTMONKS_API_KEY', '')
+    # CricAPI Configuration (for cricket matches)
+    CRICAPI_KEY = os.getenv('CRICAPI_KEY', '')
     
     # Google Gemini API Configuration
     GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
@@ -45,9 +45,10 @@ class Config:
             print("Please set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET in .env file")
             print("See .env.example for reference")
         
-        if not Config.SPORTMONKS_API_KEY:
-            print("WARNING: SportMonks API key not found in environment variables!")
-            print("Please set SPORTMONKS_API_KEY in .env file")
+        if not Config.CRICAPI_KEY:
+            print("WARNING: CricAPI key not found in environment variables!")
+            print("Please set CRICAPI_KEY in .env file")
+            print("Get your free API key from: https://www.cricapi.com/")
         
         if Config.GEMINI_API_KEY and Config.GEMINI_API_KEY != 'your_gemini_api_key_here':
             import google.generativeai as genai

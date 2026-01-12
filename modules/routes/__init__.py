@@ -6,6 +6,7 @@ from modules.routes.payment_routes import register_payment_routes
 from modules.routes.team_routes import register_team_routes
 from modules.routes.contest_routes import register_contest_routes
 from modules.routes.oauth_routes import register_oauth_routes
+from modules.routes.admin_routes import register_admin_routes
 
 def register_routes(app, db, mail, razorpay_client):
     """Register all routes for the Flask application by importing from separate modules"""
@@ -28,8 +29,11 @@ def register_routes(app, db, mail, razorpay_client):
     # Register team creation and management routes
     register_team_routes(app, db)
     
-    # Register contest related routes
+    # Register contest routes
     register_contest_routes(app, db)
+    
+    # Register admin routes
+    register_admin_routes(app, db)
 
 __all__ = [
     'register_routes',
